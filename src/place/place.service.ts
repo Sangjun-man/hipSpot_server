@@ -1,13 +1,17 @@
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Place, PlaceDocument } from './schemas/place.schema';
-import { PlaceInfoDto } from './dto/place.dto';
 import { filterData, mapFitCoord } from 'src/types';
+import { MapService } from 'src/map/map.service';
 
 @Injectable()
 export class PlaceService {
-  constructor(@InjectModel(Place.name) private placeModel: Model<PlaceDocument>) {}
+  constructor(
+    @InjectModel(Place.name) private placeModel: Model<PlaceDocument>,
+    private readonly mapService: MapService,
+  ) {}
+
   async findAll(): Promise<Place[]> {
     return this.placeModel.find({});
   }
@@ -19,9 +23,28 @@ export class PlaceService {
     });
   }
   async findFiltterd(filterData: filterData): Promise<Place[]> {
-    return this.placeModel.find({ categories: [...filterData.categories], items: [...filterData.items] });
+    const findFiltered = this.placeModel.find({
+      $or: [{ categories: { $all: [...filterData.categories] } }, { items: { $in: [...filterData.items] } }],
+    });
+    return findFiltered;
   }
-  async findOne(name: string): Promise<Place[]> {
-    return this.placeModel.find({ name });
+  async findOne(placeName: string): Promise<Place[]> {
+    const findOne = this.placeModel.find({ placeName: placeName });
+    return findOne;
   }
+  async updateOneCoord(address: string) {
+    const geoData = await this.mapService.getGeoCode(address);
+    const { x, y } = geoData.addresses[0];
+    // console.log(address);
+    // console.log(x, y, roadAddress);
+    return { lat: x, lon: y };
+    // return await this.placeModel.updateMany({}, { $set: { mapData: { lat: x, lon: y } } ,false ,true });
+  }
+  // async updateAllCoord() {
+  //   try {
+  //     return 'success!';
+  //   } catch (e) {
+  //     return e;
+  //   }
+  // }
 }

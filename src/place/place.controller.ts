@@ -1,5 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, Redirect, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { filterData, mapFitCoord } from 'src/types';
 import { PlaceService } from './place.service';
 
@@ -19,8 +18,18 @@ export class PlaceController {
     console.log(filterData); // json
     return this.PlaceService.findFiltterd(filterData);
   }
-  @Get('/:name')
-  findOne(@Param('name') name: string) {
-    return this.PlaceService.findOne(name);
+
+  @Get('/updateOneCoord')
+  updateCoord(@Body() body: { address: string }) {
+    const { address } = body;
+    return this.PlaceService.updateOneCoord(address);
   }
+  @Get('/:placeName')
+  findOne(@Param('placeName') placeName: string) {
+    return this.PlaceService.findOne(placeName);
+  }
+  // @Get('/updateAllCoord')
+  // updateAllCoord() {
+  //   return this.PlaceService.updateAllCoord();
+  // }
 }

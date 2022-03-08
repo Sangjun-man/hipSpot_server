@@ -5,17 +5,17 @@ export class MapData {
   @Prop(String)
   naverMapUrl: string;
 
-  @Prop({ lat: Number, lng: Number })
-  coordinates: {
+  @Prop({ type: { coordinate: { lat: Number, lon: Number } } })
+  coordinate: {
     lat: number;
-    lng: number;
+    lon: number;
   };
 }
 
 export const MapDataSchema = new mongoose.Schema({
   naverMapUrl: String,
-  coordinates: {
+  coordinate: {
     lat: Number,
-    lng: Number,
+    lon: Number,
   },
 });

@@ -1,5 +1,6 @@
 import { Prop } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import { MapData } from 'src/map/schemas/map.schema';
 
 export type PlaceDocument = Place & Document;
 
@@ -23,7 +24,7 @@ export class Place {
   contactNum: string;
 
   @Prop(String)
-  instagramId: string;
+  instaId: string;
 
   @Prop(String)
   description: string;
@@ -36,6 +37,9 @@ export class Place {
 
   @Prop(String)
   businessTime: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
+  mapData: MapData;
 }
 
 export const PlaceSchema = new mongoose.Schema(

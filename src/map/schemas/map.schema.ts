@@ -6,20 +6,12 @@ export type MapDataType = {
   lon: number;
 };
 export class MapData {
-  @Prop(String)
-  naverMapUrl: string;
-
-  @Prop({ type: { coordinate: { lat: Number, lon: Number } } })
-  coordinate: {
-    lat: number;
-    lon: number;
-  };
+  @Prop({ type: { lat: Number, lon: Number } })
+  lat: number;
+  lon: number;
 }
 
 export const MapDataSchema = new mongoose.Schema({
-  naverMapUrl: String,
-  coordinate: {
-    lat: Number,
-    lon: Number,
-  },
+  lat: Number,
+  lon: Number,
 });

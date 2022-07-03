@@ -1,22 +1,22 @@
 import { Prop } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { MapData } from 'src/map/schemas/map.schema';
+import { MapData, MapDataSchema } from 'src/map/schemas/map.schema';
 
 export type PlaceDocument = Place & Document;
 
-export type PlaceType = {
-  placeName: string;
-  categories: string[];
-  items: string[];
-  address: string;
-  contactNum: string;
-  instaId: string;
-  description: string;
-  businessDay: string[];
-  borderColor: string;
-  review: number;
-  mapData: MapData;
-};
+// export type PlaceType = {
+//   placeName: string;
+//   categories: string[];
+//   items: string[];
+//   address: string;
+//   contactNum: string;
+//   instaId: string;
+//   description: string;
+//   businessDay: string[];
+//   borderColor: string;
+//   review: number;
+//   mapData: MapData;
+// };
 
 export class Place {
   @Prop(String)
@@ -65,7 +65,7 @@ export const PlaceSchema = new mongoose.Schema(
     businessDay: [String],
     borderColor: String,
     review: Number,
-    mapData: MapData,
+    mapData: MapDataSchema,
   },
   { collection: 't_place' },
 );

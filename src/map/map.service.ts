@@ -6,6 +6,10 @@ import axios from 'axios';
 export class MapService {
   constructor(private readonly httpService: HttpService) {}
 
+  // async coordUpload() {
+
+  // }
+
   async getGeoCode(address: string): Promise<any> {
     // console.log('hihihihi this is map module');
     const response = await axios({

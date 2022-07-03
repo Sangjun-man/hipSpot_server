@@ -4,10 +4,21 @@ import { MapData } from 'src/map/schemas/map.schema';
 
 export type PlaceDocument = Place & Document;
 
-export class Place {
-  @Prop(String)
-  id: string;
+export type PlaceType = {
+  placeName: string;
+  categories: string[];
+  items: string[];
+  address: string;
+  contactNum: string;
+  instaId: string;
+  description: string;
+  businessDay: string[];
+  borderColor: string;
+  review: number;
+  mapData: MapData;
+};
 
+export class Place {
   @Prop(String)
   placeName: string;
 
@@ -29,14 +40,14 @@ export class Place {
   @Prop(String)
   description: string;
 
-  @Prop(Boolean)
-  parking: boolean;
-
   @Prop([String])
   businessDay: string[];
 
   @Prop(String)
-  businessTime: string;
+  borderColor: string;
+
+  @Prop(Number)
+  review: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
   mapData: MapData;
@@ -44,17 +55,17 @@ export class Place {
 
 export const PlaceSchema = new mongoose.Schema(
   {
-    id: String,
     placeName: String,
     categories: [String],
     items: [String],
     address: String,
     contactNum: String,
-    instagramId: String,
+    instaId: String,
     description: String,
-    parking: Boolean,
     businessDay: [String],
-    businessTime: String,
+    borderColor: String,
+    review: Number,
+    mapData: MapData,
   },
-  { collection: 'place' },
+  { collection: 't_place' },
 );

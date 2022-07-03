@@ -1,20 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
-
-dotenv.config({
-  path: path.resolve(
-    process.env.NODE_ENV === 'production'
-      ? '.production.env'
-      : process.env.NODE_ENV === 'stage'
-      ? '.stage.env'
-      : '.development.env',
-  ),
-});
+import * as mongoose from 'mongoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(5000);
+  mongoose.set('debug', true);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

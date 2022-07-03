@@ -9,5 +9,6 @@ import { Place, PlaceSchema } from './schemas/place.schema';
   imports: [MongooseModule.forFeature([{ name: Place.name, schema: PlaceSchema }]), MapModule],
   controllers: [PlaceController],
   providers: [PlaceService],
+  exports: [PlaceService],
 })
 export class PlaceModule {}

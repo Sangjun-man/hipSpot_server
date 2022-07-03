@@ -13,6 +13,7 @@ export class PlaceService {
   ) {}
 
   async findAll(): Promise<Place[]> {
+    console.log(await this.placeModel.find({}));
     return this.placeModel.find({});
   }
   async findAllInMap(mapFitCoord: mapFitCoord): Promise<Place[]> {
@@ -31,6 +32,17 @@ export class PlaceService {
   async findOne(placeName: string): Promise<Place[]> {
     const findOne = this.placeModel.find({ placeName: placeName });
     return findOne;
+  }
+  async findOneById(id: string): Promise<Place> {
+    return await this.placeModel.findOne({ instaId: id });
+    // return a;
+  }
+  async updateOne(updateValue) {
+    try {
+      console.log(await this.placeModel.updateOne({ instaId: 'test' }, { $set: { ...updateValue } }));
+    } catch (error) {
+      console.log(error);
+    }
   }
   async updateOneCoord(address: string) {
     const geoData = await this.mapService.getGeoCode(address);

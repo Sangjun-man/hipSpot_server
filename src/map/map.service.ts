@@ -19,7 +19,7 @@ export class MapService {
         'X-NCP-APIGW-API-KEY': process.env.NAVER_MAP_CLIENT_SECRET,
       },
     });
-    // console.log('response', response.data);
+    console.log('response', response.data);
     return response.data;
   }
 }

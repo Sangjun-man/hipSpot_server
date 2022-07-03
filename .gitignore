@@ -37,4 +37,3 @@ lerna-debug.log*
 # env files
 *.env
 
-*.pem

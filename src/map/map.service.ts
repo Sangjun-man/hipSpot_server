@@ -28,10 +28,10 @@ export class MapService {
     for (let i = 0; i < placeList.length; i++) {
       const { instaId, address } = placeList[i];
       const geoData = await this.getGeoCode(address).then(res => ({
-        lat: res.addresses[0].x,
-        lon: res.addresses[0].y,
+        lng: res.addresses[0].x,
+        lat: res.addresses[0].y,
       }));
-      await this.PlaceService.updateOne({ instaId, mapData: { lat: geoData.lat, lon: geoData.lon } });
+      await this.PlaceService.updateOne({ instaId, mapData: { lat: geoData.lat, lng: geoData.lng } });
     }
   }
 

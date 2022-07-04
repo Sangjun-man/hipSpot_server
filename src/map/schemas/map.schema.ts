@@ -3,15 +3,15 @@ import mongoose from 'mongoose';
 
 export type MapDataType = {
   lat: number;
-  lon: number;
+  lng: number;
 };
 export class MapData {
-  @Prop({ type: { lat: Number, lon: Number } })
+  @Prop({ type: { lat: Number, lng: Number } })
   lat: number;
-  lon: number;
+  lng: number;
 }
 
 export const MapDataSchema = new mongoose.Schema({
   lat: Number,
-  lon: Number,
+  lng: Number,
 });

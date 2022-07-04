@@ -10,14 +10,14 @@ export class PlaceService {
   constructor(@InjectModel(Place.name) private placeModel: Model<PlaceDocument>) {}
 
   async findAll(): Promise<Place[]> {
-    console.log(await this.placeModel.find({}));
-    return this.placeModel.find({});
+    // console.log(await this.placeModel.find({}));
+    return await this.placeModel.find({});
   }
   async findAllInMap(mapFitCoord: mapFitCoord): Promise<Place[]> {
     const { lt, gt } = mapFitCoord;
     return this.placeModel.find({
       lat: { $lt: lt.lat, $gt: gt.lat },
-      lon: { $lt: lt.lon, $gt: gt.lon },
+      lng: { $lt: lt.lng, $gt: gt.lng },
     });
   }
   async findFiltterd(filterData: filterData): Promise<Place[]> {

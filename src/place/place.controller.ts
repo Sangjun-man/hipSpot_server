@@ -23,8 +23,4 @@ export class PlaceController {
   findOne(@Param('placeName') placeName: string) {
     return this.PlaceService.findOne(placeName);
   }
-  // @Get('/updateAllCoord')
-  // updateAllCoord() {
-  //   return this.PlaceService.updateAllCoord();
-  // }
 }

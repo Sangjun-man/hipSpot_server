@@ -19,11 +19,6 @@ export class PlaceController {
     return this.PlaceService.findFiltterd(filterData);
   }
 
-  @Get('/updateOneCoord')
-  updateCoord(@Body() body: { address: string }) {
-    const { address } = body;
-    return this.PlaceService.updateOneCoord(address);
-  }
   @Get('/:placeName')
   findOne(@Param('placeName') placeName: string) {
     return this.PlaceService.findOne(placeName);

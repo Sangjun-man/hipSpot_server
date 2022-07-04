@@ -49,6 +49,9 @@ export class Place {
   @Prop(Number)
   review: number;
 
+  @Prop(String)
+  naverMapUrl: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
   mapData: MapData;
 }

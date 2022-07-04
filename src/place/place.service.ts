@@ -7,10 +7,7 @@ import { MapService } from 'src/map/map.service';
 
 @Injectable()
 export class PlaceService {
-  constructor(
-    @InjectModel(Place.name) private placeModel: Model<PlaceDocument>,
-    private readonly mapService: MapService,
-  ) {}
+  constructor(@InjectModel(Place.name) private placeModel: Model<PlaceDocument>) {}
 
   async findAll(): Promise<Place[]> {
     console.log(await this.placeModel.find({}));
@@ -39,24 +36,10 @@ export class PlaceService {
   }
   async updateOne(updateValue) {
     try {
-      console.log(await this.placeModel.updateOne({ instaId: 'test' }, { $set: { ...updateValue } }));
+      const { instaId } = updateValue;
+      console.log(await this.placeModel.updateOne({ instaId: instaId }, { $set: { ...updateValue } }));
     } catch (error) {
       console.log(error);
     }
   }
-  async updateOneCoord(address: string) {
-    const geoData = await this.mapService.getGeoCode(address);
-    const { x, y } = geoData.addresses[0];
-    // console.log(address);
-    // console.log(x, y, roadAddress);
-    return { lat: x, lon: y };
-    // return await this.placeModel.updateMany({}, { $set: { mapData: { lat: x, lon: y } } ,false ,true });
-  }
-  // async updateAllCoord() {
-  //   try {
-  //     return 'success!';
-  //   } catch (e) {
-  //     return e;
-  //   }
-  // }
 }

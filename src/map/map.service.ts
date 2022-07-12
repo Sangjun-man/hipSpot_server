@@ -50,8 +50,8 @@ export class MapService {
         const { instaId } = placeListData[i];
         const { lng, lat } = placeListData[i].mapData;
         const json: GeoJSON = {
-          type: 'feature',
-          instaId,
+          type: 'Feature',
+          // instaId,
           geometry: {
             type: 'Point',
             coordinates: [lng, lat],
@@ -61,7 +61,7 @@ export class MapService {
           },
         };
 
-        await this.GeoJSONModel.updateOne({ instaId }, json, { upsert: true });
+        await this.GeoJSONModel.updateOne({ properties: { instaId } }, json, { upsert: true });
       }
       return '성공';
     } catch (e) {

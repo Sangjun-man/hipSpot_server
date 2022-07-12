@@ -19,8 +19,8 @@ export const MapDataSchema = new mongoose.Schema({
 });
 @Schema({ collection: 'geojson' })
 export class GeoJSON {
-  @Prop(String)
-  instaId: string;
+  // @Prop(String)
+  // instaId: string;
 
   @Prop(String)
   type: string;

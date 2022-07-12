@@ -1,14 +1,21 @@
+import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import axios from 'axios';
 import { PlaceService } from 'src/place/place.service';
 import { Place } from 'src/place/schemas/place.schema';
+import { GeoJSON, GeoJSONDocument } from './schemas/map.schema';
 
 @Injectable()
 export class MapService {
-  constructor(private readonly HttpService: HttpService, private readonly PlaceService: PlaceService) {}
+  constructor(
+    private readonly HttpService: HttpService,
+    private readonly PlaceService: PlaceService,
+    @InjectModel(GeoJSON.name) private GeoJSONModel: Model<GeoJSONDocument>,
+  ) {}
 
-  async allCoordUpload() {
+  async allUpdateCoord() {
     try {
       const placeListData: Array<Place> = await this.PlaceService.findAll();
 
@@ -33,6 +40,38 @@ export class MapService {
       }));
       await this.PlaceService.updateOne({ instaId, mapData: { lat: geoData.lat, lng: geoData.lng } });
     }
+  }
+
+  async allUpdateGeoJSON() {
+    try {
+      const placeListData: Array<Place> = await this.PlaceService.findAll();
+      for (let i = 0; i < placeListData.length; i++) {
+        if (!placeListData[i].mapData) continue;
+        const { instaId } = placeListData[i];
+        const { lng, lat } = placeListData[i].mapData;
+        const json: GeoJSON = {
+          type: 'feature',
+          instaId,
+          geometry: {
+            type: 'Point',
+            coordinates: [lng, lat],
+          },
+          properties: {
+            instaId,
+          },
+        };
+
+        await this.GeoJSONModel.updateOne({ instaId }, json, { upsert: true });
+      }
+      return '성공';
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  }
+
+  async allGeoJSON() {
+    return await this.GeoJSONModel.find();
   }
 
   async getGeoCode(address: string): Promise<any> {

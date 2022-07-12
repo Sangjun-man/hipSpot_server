@@ -1,4 +1,4 @@
-import { Prop } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { MapData, MapDataSchema } from 'src/map/schemas/map.schema';
 
@@ -17,7 +17,7 @@ export type PlaceDocument = Place & Document;
 //   review: number;
 //   mapData: MapData;
 // };
-
+@Schema({ collection: 't_place' })
 export class Place {
   @Prop(String)
   placeName: string;
@@ -52,23 +52,27 @@ export class Place {
   @Prop(String)
   naverMapUrl: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
+  @Prop(Object)
   mapData: MapData;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
+  // mapData: MapData;
 }
 
-export const PlaceSchema = new mongoose.Schema(
-  {
-    placeName: String,
-    categories: [String],
-    items: [String],
-    address: String,
-    contactNum: String,
-    instaId: String,
-    description: String,
-    businessDay: [String],
-    borderColor: String,
-    review: Number,
-    mapData: MapDataSchema,
-  },
-  { collection: 't_place' },
-);
+export const PlaceSchema = SchemaFactory.createForClass(Place);
+
+// export const PlaceSchema = new mongoose.Schema(
+//   {
+//     placeName: String,
+//     categories: [String],
+//     items: [String],
+//     address: String,
+//     contactNum: String,
+//     instaId: String,
+//     description: String,
+//     businessDay: [String],
+//     borderColor: String,
+//     review: Number,
+//     mapData: MapDataSchema,
+//   },
+//   { collection: 't_place' },
+// );

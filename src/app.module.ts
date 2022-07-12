@@ -23,7 +23,8 @@ dotenv.config({
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(`${process.env.MONGO_URI}`),
+    MongooseModule.forRoot(`${process.env.MONGO_URI}
+    `),
     FilterModule,
     MapModule,
     ImageModule,

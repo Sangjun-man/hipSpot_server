@@ -17,8 +17,11 @@ export type PlaceDocument = Place & Document;
 //   review: number;
 //   mapData: MapData;
 // };
-@Schema({ collection: 't_place' })
+@Schema({ collection: 'tt_place' })
 export class Place {
+  @Prop(Number)
+  id: number;
+
   @Prop(String)
   placeName: string;
 

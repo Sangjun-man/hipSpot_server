@@ -47,7 +47,7 @@ export class MapService {
       const placeListData: Array<Place> = await this.PlaceService.findAll();
       for (let i = 0; i < placeListData.length; i++) {
         if (!placeListData[i].mapData) continue;
-        const { instaId } = placeListData[i];
+        const { instaId, id, borderColor = '' } = placeListData[i];
         const { lng, lat } = placeListData[i].mapData;
         const json: GeoJSON = {
           type: 'Feature',
@@ -58,6 +58,8 @@ export class MapService {
           },
           properties: {
             instaId,
+            id: `${id}`,
+            borderColor: `${borderColor}`,
           },
         };
 

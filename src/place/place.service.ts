@@ -35,6 +35,7 @@ export class PlaceService {
     // return a;
   }
   async updateOne(updateValue) {
+    console.log('업데이트 시작');
     try {
       const { instaId } = updateValue;
       console.log(await this.placeModel.updateOne({ instaId: instaId }, { $set: { ...updateValue } }));

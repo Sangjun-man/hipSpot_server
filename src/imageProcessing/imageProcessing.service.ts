@@ -49,6 +49,7 @@ export class ImageProcessingService {
       return borderColor;
     } catch (error) {
       console.log(error);
+      return { borderColor: [] };
     }
   }
 

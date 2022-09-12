@@ -5,13 +5,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import axios from 'axios';
 import { PlaceService } from 'src/place/place.service';
 import { Place } from 'src/place/schemas/place.schema';
-import { GeoJSON, GeoJSONDocument } from './schemas/map.schema';
+import { GeoJSON, GeoJSONDocument, MapData, MapdataDocument } from './schemas/map.schema';
+import { ImageProcessingService } from 'src/imageProcessing/imageProcessing.service';
 
 @Injectable()
 export class MapService {
   constructor(
     private readonly HttpService: HttpService,
+    private readonly ImageProcessingService: ImageProcessingService,
     private readonly PlaceService: PlaceService,
+    @InjectModel(MapData.name) private MapDataModel: Model<MapdataDocument>,
     @InjectModel(GeoJSON.name) private GeoJSONModel: Model<GeoJSONDocument>,
   ) {}
 
@@ -38,18 +41,28 @@ export class MapService {
         lng: res.addresses[0].x,
         lat: res.addresses[0].y,
       }));
-      await this.PlaceService.updateOne({ instaId, mapData: { lat: geoData.lat, lng: geoData.lng } });
+      await this.MapDataModel.updateOne(
+        { instaId },
+        { $set: { lat: geoData.lat, lng: geoData.lng, instaId } },
+        { upsert: true },
+      );
     }
   }
 
   async allUpdateGeoJSON() {
     try {
-      const placeListData: Array<Place> = await this.PlaceService.findAll();
-      for (let i = 0; i < placeListData.length; i++) {
-        if (!placeListData[i].mapData) continue;
-        const { instaId, id, borderColor, placeName } = placeListData[i];
-        const { lng, lat } = placeListData[i].mapData;
+      const MapDataList: Array<MapData> = await this.MapDataModel.find();
+      for (let i = 0; i < MapDataList.length; i++) {
+        if (!MapDataList[i]) continue;
+        const { instaId } = MapDataList[i];
+        const { lng, lat } = MapDataList[i];
+        const { borderColor } = (await this.ImageProcessingService.findOne(instaId)) || { borderColor: [] };
+        const { placeName } = await this.PlaceService.findOne(instaId);
         console.log(instaId, borderColor);
+        if (borderColor.length === 0 && borderColor === null) {
+          console.log('보더가없어요', instaId);
+          continue;
+        }
         const json: GeoJSON = {
           type: 'Feature',
           // instaId,
@@ -59,7 +72,7 @@ export class MapService {
           },
           properties: {
             instaId,
-            id: `${id}`,
+            // id: `${id}`,
             borderColor: `${borderColor.length !== 0 ? borderColor[0].hex : '#000000'}`,
             placeName,
           },

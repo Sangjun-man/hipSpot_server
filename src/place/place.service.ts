@@ -24,11 +24,7 @@ export class PlaceService {
     });
     return findFiltered;
   }
-  async findOne(instaId: string): Promise<Place[]> {
-    const findOne = this.placeModel.find({ instaId });
-    return findOne;
-  }
-  async findOneById(id: string): Promise<Place> {
+  async findOne(id: string): Promise<Place> {
     return await this.placeModel.findOne({ instaId: id });
     // return a;
   }

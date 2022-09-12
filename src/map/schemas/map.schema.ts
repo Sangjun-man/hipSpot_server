@@ -5,8 +5,10 @@ export type MapdataDocument = MapData & Document;
 
 @Schema({ collection: 'mapData' })
 export class MapData {
-  @Prop({ type: { lat: Number, lng: Number } })
+  @Prop(Number)
   lat: number;
+
+  @Prop(Number)
   lng: number;
 
   @Prop(String)

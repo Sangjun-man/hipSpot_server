@@ -14,7 +14,7 @@ export class ImageProcessingService {
     const colorData = await this.getClusterColor(instaId);
     //[ [] [] [] ] 이중배열 parseInt 처리 + rgb값 hex값으로 변환
 
-    if (colorData[0]['error']) {
+    if (!colorData || colorData[0]['error']) {
       return 'error';
     } else {
       const borderColorData: string[] = colorData.map((data, i) => {
@@ -29,11 +29,34 @@ export class ImageProcessingService {
         };
       });
       try {
-        // console.log(await this.ImageProcessingModel.updateOne({ instaId }, { $set: { borderColor: borderColorData } }));
+        console.log(
+          await this.ImageProcessingModel.updateOne(
+            { instaId: instaId },
+            { $set: { borderColor: borderColorData } },
+            { upsert: true },
+          ),
+        );
+        return 'success';
       } catch (error) {
         console.log(error);
       }
-      return 'success';
+    }
+  }
+
+  async findOne(instaId: string) {
+    try {
+      const borderColor = await this.ImageProcessingModel.findOne({ instaId });
+      return borderColor;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findAll() {
+    try {
+      return await this.ImageProcessingModel.find({});
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -41,7 +64,7 @@ export class ImageProcessingService {
     try {
       const response = await axios({
         method: 'GET',
-        url: `http://127.0.0.1:5002/ImageProcessing?id=${id}`,
+        url: `http://127.0.0.1:5002/image?id=${id}`,
       });
       const { data } = response;
       data.sort((a, b) => {

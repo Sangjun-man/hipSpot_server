@@ -6,7 +6,6 @@ export class MapController {
   constructor(private readonly MapService: MapService) {}
   @Get('/allUpdateCoord')
   allUpdateCoord() {
-    // const str = '서울 성동구 서울숲길 55 1층';
     return this.MapService.allUpdateCoord();
   }
 

@@ -3,14 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Place, PlaceDocument } from './schemas/place.schema';
 import { filterData, mapFitCoord } from 'src/types';
-import { MapService } from 'src/map/map.service';
 
 @Injectable()
 export class PlaceService {
   constructor(@InjectModel(Place.name) private placeModel: Model<PlaceDocument>) {}
 
   async findAll(): Promise<Place[]> {
-    // console.log(await this.placeModel.find({}));
     return await this.placeModel.find({});
   }
   async findAllInMap(mapFitCoord: mapFitCoord): Promise<Place[]> {
@@ -26,8 +24,8 @@ export class PlaceService {
     });
     return findFiltered;
   }
-  async findOne(placeName: string): Promise<Place[]> {
-    const findOne = this.placeModel.find({ placeName: placeName });
+  async findOne(instaId: string): Promise<Place[]> {
+    const findOne = this.placeModel.find({ instaId });
     return findOne;
   }
   async findOneById(id: string): Promise<Place> {

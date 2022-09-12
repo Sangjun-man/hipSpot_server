@@ -19,8 +19,8 @@ export class PlaceController {
     return this.PlaceService.findFiltterd(filterData);
   }
 
-  @Get('/:placeName')
-  findOne(@Param('placeName') placeName: string) {
+  @Get('/:placeId')
+  findOne(@Param('placeId') placeName: string) {
     return this.PlaceService.findOne(placeName);
   }
 }

@@ -1,22 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import { MapData, MapDataSchema } from 'src/map/schemas/map.schema';
+import { MapData } from 'src/map/schemas/map.schema';
 
 export type PlaceDocument = Place & Document;
 
-// export type PlaceType = {
-//   placeName: string;
-//   categories: string[];
-//   items: string[];
-//   address: string;
-//   contactNum: string;
-//   instaId: string;
-//   description: string;
-//   businessDay: string[];
-//   borderColor: string;
-//   review: number;
-//   mapData: MapData;
-// };
 @Schema({ collection: 'tt_place' })
 export class Place {
   @Prop(Number)
@@ -46,8 +32,18 @@ export class Place {
   @Prop([String])
   businessDay: string[];
 
-  @Prop(String)
-  borderColor: string;
+  @Prop([Object])
+  borderColor: Array<{
+    clusterOrder: number;
+    hex: string;
+    color: string;
+    stroke: string;
+    lightNess: number;
+    gray: string;
+  }>;
+
+  @Prop([String])
+  fontColorData: string[];
 
   @Prop(Number)
   review: number;
@@ -55,27 +51,17 @@ export class Place {
   @Prop(String)
   naverMapUrl: string;
 
+  @Prop(String)
+  kakaoMapUrl: string;
+
   @Prop(Object)
   mapData: MapData;
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Mapdata' })
-  // mapData: MapData;
+
+  @Prop([Object])
+  menu: Array<{
+    menu: string;
+    price: string | number;
+  }>;
 }
 
 export const PlaceSchema = SchemaFactory.createForClass(Place);
-
-// export const PlaceSchema = new mongoose.Schema(
-//   {
-//     placeName: String,
-//     categories: [String],
-//     items: [String],
-//     address: String,
-//     contactNum: String,
-//     instaId: String,
-//     description: String,
-//     businessDay: [String],
-//     borderColor: String,
-//     review: Number,
-//     mapData: MapDataSchema,
-//   },
-//   { collection: 't_place' },
-// );

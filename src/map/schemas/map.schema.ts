@@ -1,27 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 
 export type GeoJSONDocument = GeoJSON & Document;
+export type MapdataDocument = MapData & Document;
 
-export type MapDataType = {
-  lat: number;
-  lng: number;
-};
+@Schema({ collection: 'mapData' })
 export class MapData {
   @Prop({ type: { lat: Number, lng: Number } })
   lat: number;
   lng: number;
+
+  @Prop(String)
+  instaId: string;
+
+  @Prop(Number)
+  id: number;
 }
 
-export const MapDataSchema = new mongoose.Schema({
-  lat: Number,
-  lng: Number,
-});
 @Schema({ collection: 'geojson' })
 export class GeoJSON {
-  // @Prop(String)
-  // instaId: string;
-
   @Prop(String)
   type: string;
 
@@ -37,3 +33,4 @@ export class GeoJSON {
 }
 
 export const GeoJSONSchema = SchemaFactory.createForClass(GeoJSON);
+export const MapDataSchema = SchemaFactory.createForClass(MapData);

@@ -4,11 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FilterModule } from './filter/filter.module';
-import { PlaceModule } from './place/place.module';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { MapModule } from './map/map.module';
-import { ImageModule } from './image/image.module';
+import { ImageProcessingModule } from './imageProcessing/imageProcessing.module';
 
 dotenv.config({
   path: path.resolve(
@@ -27,7 +26,7 @@ dotenv.config({
     `),
     FilterModule,
     MapModule,
-    ImageModule,
+    ImageProcessingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,7 +3,7 @@ import { MapData } from 'src/map/schemas/map.schema';
 
 export type PlaceDocument = Place & Document;
 
-@Schema({ collection: 'tt_place' })
+@Schema({ collection: 'place' })
 export class Place {
   @Prop(Number)
   id: number;
@@ -32,19 +32,6 @@ export class Place {
   @Prop([String])
   businessDay: string[];
 
-  @Prop([Object])
-  borderColor: Array<{
-    clusterOrder: number;
-    hex: string;
-    color: string;
-    stroke: string;
-    lightNess: number;
-    gray: string;
-  }>;
-
-  @Prop([String])
-  fontColorData: string[];
-
   @Prop(Number)
   review: number;
 
@@ -53,9 +40,6 @@ export class Place {
 
   @Prop(String)
   kakaoMapUrl: string;
-
-  @Prop(Object)
-  mapData: MapData;
 
   @Prop([Object])
   menu: Array<{

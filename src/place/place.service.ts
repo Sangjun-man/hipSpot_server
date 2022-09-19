@@ -24,9 +24,9 @@ export class PlaceService {
     });
     return findFiltered;
   }
-  async findOne(id: string): Promise<Place> {
-    return await this.placeModel.findOne({ instaId: id });
-    // return a;
+  async findOne(instaId: string): Promise<Place> {
+    const place = await this.placeModel.findOne({ instaId });
+    return place;
   }
   async updateOne(updateValue) {
     console.log('업데이트 시작');

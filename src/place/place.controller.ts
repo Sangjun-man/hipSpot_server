@@ -21,6 +21,7 @@ export class PlaceController {
 
   @Get('/:placeId')
   findOne(@Param('placeId') placeName: string) {
+    console.log(placeName);
     return this.PlaceService.findOne(placeName);
   }
 }

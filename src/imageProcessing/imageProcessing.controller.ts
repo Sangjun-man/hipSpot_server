@@ -7,7 +7,8 @@ export class ImageProcessingController {
   constructor(
     private readonly PlaceService: PlaceService,
     private readonly ImageProcessingService: ImageProcessingService,
-  ) {}
+  ) { }
+  
   @Get('/getBorderColor')
   async getBorderColor(@Query('instaId') query: { instaId: string; id: number | undefined }) {
     const instaId = query.instaId;
@@ -43,4 +44,6 @@ export class ImageProcessingController {
     await slowlyUpdate({ start: 101, end: 120 });
     await slowlyUpdate({ start: 121, end: 140 });
   }
+
+  @Get('/jsondata')
 }

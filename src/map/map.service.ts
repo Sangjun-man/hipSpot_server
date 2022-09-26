@@ -57,8 +57,8 @@ export class MapService {
         const { instaId } = MapDataList[i];
         const { lng, lat } = MapDataList[i];
         const { borderColor } = (await this.ImageProcessingService.findOne(instaId)) || { borderColor: [] };
-        const { placeName } = await this.PlaceService.findOne(instaId);
-        console.log(instaId, borderColor);
+        const { placeName, id } = await this.PlaceService.findOne(instaId);
+        // console.log(instaId, borderColor);
         if (borderColor.length === 0 && borderColor === null) {
           console.log('보더가없어요', instaId);
           continue;
@@ -72,13 +72,13 @@ export class MapService {
           },
           properties: {
             instaId,
-            // id: `${id}`,
+            id: `${id}`,
             borderColor: `${borderColor.length !== 0 ? borderColor[0].hex : '#000000'}`,
             placeName,
           },
         };
 
-        await this.GeoJSONModel.updateOne({ properties: { instaId } }, json, { upsert: true });
+        await this.GeoJSONModel.updateOne({ properties: { instaId } }, { $set: { ...json } }, { upsert: true });
       }
       return '성공';
     } catch (e) {

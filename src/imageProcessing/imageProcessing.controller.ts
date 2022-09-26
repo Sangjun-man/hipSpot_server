@@ -8,6 +8,7 @@ export class ImageProcessingController {
     private readonly PlaceService: PlaceService,
     private readonly ImageProcessingService: ImageProcessingService,
   ) {}
+
   @Get('/getBorderColor')
   async getBorderColor(@Query('instaId') query: { instaId: string; id: number | undefined }) {
     const instaId = query.instaId;
